@@ -20,6 +20,7 @@
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {
+    "@types/expo__vector-icons": "^6.2.3",
     "@types/react": "^16.7.22",
     "@types/react-native": "^0.57.32",
     "babel-eslint": "^10.0.1",

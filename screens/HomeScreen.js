@@ -1,6 +1,3 @@
-/* eslint-disable global-require */
-/* global __DEV__ */
-
 import React from 'react';
 import {
   Image,

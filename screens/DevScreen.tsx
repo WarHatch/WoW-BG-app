@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   ScrollView,
@@ -6,20 +6,21 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import CounterBox from '../components/CounterBox';
+} from "react-native";
+import CounterBox from "../components/CounterBox";
 
 // eslint-disable-next-line react/prefer-stateless-function
 export default class DevScreen extends React.Component {
-  static navigationOptions = {
+  public static navigationOptions = {
     header: null,
   };
 
-  render() {
+  public render() {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <CounterBox title="hello" />
+          <CounterBox icon={require("../assets/images/blood.png")} />
+          <CounterBox icon={require("../assets/images/energy.png")} />
         </ScrollView>
       </View>
     );
@@ -28,8 +29,8 @@ export default class DevScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#fff",
     flex: 1,
-    backgroundColor: '#fff',
   },
   contentContainer: {
     paddingTop: 30,
