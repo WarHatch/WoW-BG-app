@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll",
+    "lint": "tslint -p \".\" -t stylish"
   },
   "jest": {
     "preset": "jest-expo"
@@ -19,6 +20,8 @@
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {
+    "@types/react": "^16.7.22",
+    "@types/react-native": "^0.57.32",
     "babel-eslint": "^10.0.1",
     "babel-preset-expo": "^5.0.0",
     "eslint": "^5.12.1",
@@ -26,7 +29,13 @@
     "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-jsx-a11y": "^6.2.0",
     "eslint-plugin-react": "^7.12.4",
-    "jest-expo": "^32.0.0"
+    "jest-expo": "^32.0.0",
+    "react-native-typescript-transformer": "^1.2.11",
+    "tslint": "^5.12.1",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-react": "^3.6.0",
+    "tslint-react-recommended": "^1.0.15",
+    "typescript": "^3.2.4"
   },
   "private": true
 }

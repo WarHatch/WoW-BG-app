@@ -1,20 +1,20 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import Counter from 'react-native-counters';
+} from "react-native";
+import Counter from "react-native-counters";
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 50,
   },
 });
 
-export default (props) => {
+export default (props: { title: string; }) => {
   const { title } = props;
 
   return (
