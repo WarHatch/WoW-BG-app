@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Colors from "../constants/Colors";
 
 interface IProps {
   valueCap?: number;
@@ -20,7 +21,7 @@ interface IState {
 export default class CounterBox extends React.Component <IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    this.state = {value: 1}; // TODO: add reading from 'classes' file
+    this.state = {value: 1};
   }
 
   public render() {
@@ -30,21 +31,18 @@ export default class CounterBox extends React.Component <IProps, IState> {
 
     return (
       <View style={styles.container}>
-        {
-          valueCap && value > valueCap ?
-          <Text style={styles.warningText}>
-            <Ionicons name="md-warning" />
-            {title}
-          </Text> : null
-        }
+        <Text style={valueCap && value > valueCap ? styles.warningText : styles.warningTextHidden}>
+          <Ionicons name="md-warning" />
+          {title}
+        </Text>
         <TouchableOpacity onPress={this.handleUpPress} style={styles.button}>
-          <Ionicons name="ios-arrow-up" size={32} />
+          <Ionicons name="ios-arrow-up" size={64} />
         </TouchableOpacity>
-        <Text>
+        <Text style={styles.valueText}>
           {value}{valueCap ? `/${valueCap}` : null}
         </Text>
         <TouchableOpacity onPress={this.handleDownPress} style={styles.button}>
-          <Ionicons name="ios-arrow-down" size={32}/>
+          <Ionicons name="ios-arrow-down" size={64}/>
         </TouchableOpacity>
         <Image source={icon} style={styles.icon}/>
       </View>
@@ -70,14 +68,20 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: "center",
-    marginHorizontal: 50,
+    marginHorizontal: 10,
   },
   icon: {
     height: 50,
     width: 50,
   },
+  valueText: {
+    fontSize: 48,
+  },
   warningText: {
-    color: "lightgrey",
+    padding: 10,
+  },
+  warningTextHidden: {
+    color: Colors.backgroundColor,
     padding: 10,
   },
 });
