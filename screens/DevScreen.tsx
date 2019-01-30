@@ -1,10 +1,8 @@
 import React from "react";
 import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import CounterBox from "../components/CounterBox";
@@ -19,8 +17,9 @@ export default class DevScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <CounterBox icon={require("../assets/images/blood.png")} />
-          <CounterBox icon={require("../assets/images/energy.png")} />
+          <CounterBox icon={require("../assets/images/blood.png")} valueCap={3} />
+          <CounterBox icon={require("../assets/images/energy.png")} valueCap={3}/>
+          <CounterBox icon={require("../assets/images/coin.png")} />
         </ScrollView>
       </View>
     );
