@@ -12,11 +12,13 @@ export default class DevScreen extends React.Component {
     header: null,
   };
 
+  // TODO: add char class color state
+
   public render() {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <CharacterSelect />
+          <CharacterSelect imageName="druid" />{/* // TODO: change to dynamic reading */}
           <View style={styles.counterSection}>
             <CounterBox icon={require("../assets/images/blood.png")} valueCap={3} />
             <CounterBox icon={require("../assets/images/energy.png")} valueCap={3}/>

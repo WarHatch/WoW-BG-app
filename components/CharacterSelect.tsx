@@ -8,9 +8,10 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
+import ClassImages from "../assets/images/Classes/index";
 
 interface IProps {
-  ImageName: string;
+  imageName: string;
 }
 
 interface IState {
@@ -22,9 +23,11 @@ export default class CounterBox extends React.Component<IProps, IState> {
   }
 
   public render() {
+    const { imageName } = this.props;
+
     return (
       <View style={styles.container}>
-        <Image source={require("../assets/images/Classes/Druid.png")} style={styles.classIcon}/>
+        <Image source={ClassImages[imageName]} style={styles.classIcon}/>
         <Text style={styles.characterName}>Bloody Placeholder innit</Text>
       </View>
     );
@@ -45,8 +48,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth: 0.5,
-    borderColor: "#d6d7da",
-    // padding: 10,
+    borderBottomWidth: 2,
+    borderColor: Colors.borderColor,
   },
 });

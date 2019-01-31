@@ -3,7 +3,7 @@
         {
             "name": "Artumnis Moondream",
             "class": "Druid",
-            "iconFile": "Druid.png",
+            "iconName": "druid",
             "levelCaps": [
                 {
                     "health": 2,
