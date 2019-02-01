@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   classIcon: {
     height: 50,
     width: 50,
-    marginRight: 20,
+    marginRight: 15,
   },
   levelContainer: {
     flex: 1,
@@ -64,6 +64,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   levelText: {
-    fontSize: 32,
+    fontSize: 40,
   },
 });

@@ -4,9 +4,13 @@ import {
   StyleSheet,
   View,
 } from "react-native";
+
 import Colors from "../constants/Colors";
+
 import CounterBox from "../components/CounterBox";
 import CharacterSelect from "../components/CharacterSelect";
+import LevelButtonsSection from "../sections/LevelButtonsSection";
+
 import { ICharacter } from "../constants/IClasses";
 
 interface IState {
@@ -21,24 +25,32 @@ export default class DevScreen extends React.Component<{}, IState> {
 
   constructor(props: {}) {
     super(props);
+
+    // tslint:disable-next-line:no-require-imports
+    const characterClasses = require("../constants/Classes.json");
+    const defaultSelectedCharacter = characterClasses.Alliance[0];
+
     this.state = {
-      selectedCharacter: {
-        // Placeholder default values
-        iconName: "druid",
-        levelCaps: [
-          {
-            health: 2,
-            energy: 4,
-          },
-        ],
-        class: "Druid",
-        name: "Artumnis Moondream",
-      },
+      selectedCharacter: defaultSelectedCharacter,
       characterLevel: 1,
     };
   }
 
-  // TODO: add char class color state
+  public resetLevel() {
+    this.setState({
+      characterLevel: 1,
+    });
+  }
+
+  // TODO: maximize counter values as well
+  public levelUp() {
+    const currentLevel = this.state.characterLevel;
+    if (currentLevel < this.state.selectedCharacter.levelCaps.length) {
+      this.setState({
+        characterLevel: currentLevel + 1,
+      });
+    }
+  }
 
   public render() {
     const { selectedCharacter, characterLevel } = this.state;
@@ -51,6 +63,12 @@ export default class DevScreen extends React.Component<{}, IState> {
           <View style={styles.headerSection}>
             <CharacterSelect imageName={ iconName } characterName={name} level={characterLevel} />
           </View>
+
+          <LevelButtonsSection
+            resetLevelFunc={() => this.resetLevel()}
+            levelUpFunc={() => this.levelUp()}
+          />
+
           <View style={styles.counterSection}>
             <CounterBox
               icon={require("../assets/images/blood.png")}
