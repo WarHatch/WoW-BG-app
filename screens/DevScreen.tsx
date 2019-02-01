@@ -42,13 +42,15 @@ export default class DevScreen extends React.Component<{}, IState> {
 
   public render() {
     const { selectedCharacter, characterLevel } = this.state;
-    const { iconName, levelCaps } = selectedCharacter;
+    const { iconName, levelCaps, name } = selectedCharacter;
     const currentLevelCap = levelCaps[characterLevel - 1];
 
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <CharacterSelect imageName={ iconName } />
+          <View style={styles.headerSection}>
+            <CharacterSelect imageName={ iconName } characterName={name} level={characterLevel} />
+          </View>
           <View style={styles.counterSection}>
             <CounterBox
               icon={require("../assets/images/blood.png")}
@@ -81,5 +83,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
+  },
+  headerSection: {
+    borderBottomWidth: 2,
+    borderColor: Colors.borderColor,
   },
 });

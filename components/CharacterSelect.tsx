@@ -12,6 +12,8 @@ import ClassImages from "../assets/images/Classes/index";
 
 interface IProps {
   imageName: string;
+  characterName: string;
+  level: number;
 }
 
 interface IState {
@@ -23,32 +25,45 @@ export default class CounterBox extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { imageName } = this.props;
+    const { imageName, characterName, level } = this.props;
+    const levelPrefix = "lvl ";
 
     return (
       <View style={styles.container}>
         <Image source={ClassImages[imageName]} style={styles.classIcon}/>
-        <Text style={styles.characterName}>Bloody Placeholder innit</Text>
+        <Text style={styles.characterName}>{characterName}</Text>
+        <View style={styles.levelContainer}>
+          <Text>{levelPrefix}</Text>
+          <Text style={styles.levelText}>{level}</Text>
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 15,
+    marginVertical: 10,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
   characterName: {
     fontSize: 20,
   },
   classIcon: {
     height: 50,
     width: 50,
-    marginHorizontal: 20,
-    marginVertical: 10,
+    marginRight: 20,
   },
-  container: {
+  levelContainer: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "center",
-    borderBottomWidth: 2,
-    borderColor: Colors.borderColor,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
+  levelText: {
+    fontSize: 32,
   },
 });
