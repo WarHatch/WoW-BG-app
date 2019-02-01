@@ -11,6 +11,7 @@ import Colors from "../constants/Colors";
 
 interface IProps {
   valueCap?: number;
+  defaultValue?: number;
   icon: any;
 }
 
@@ -21,7 +22,16 @@ interface IState {
 export default class CounterBox extends React.Component <IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    this.state = {value: 1};
+    const {valueCap, defaultValue} = props;
+    let startValue;
+    if (defaultValue) {
+      startValue = defaultValue;
+    } else if (valueCap) {
+      startValue = valueCap;
+    } else {
+      startValue = 0;
+    }
+    this.state = {value: startValue};
   }
 
   public render() {
@@ -31,10 +41,12 @@ export default class CounterBox extends React.Component <IProps, IState> {
 
     return (
       <View style={styles.container}>
-        <Text style={valueCap && value > valueCap ? styles.warningText : styles.warningTextHidden}>
-          <Ionicons name="md-warning" />
-          {title}
-        </Text>
+        <View style={styles.warningTextContainer}>
+          <Text style={valueCap && value > valueCap ? null : styles.warningTextHidden}>
+            <Ionicons name="md-warning" />
+            {title}
+          </Text>
+        </View>
         <TouchableOpacity onPress={this.handleUpPress} style={styles.button}>
           <Ionicons name="ios-arrow-up" size={64} />
         </TouchableOpacity>
@@ -77,11 +89,10 @@ const styles = StyleSheet.create({
   valueText: {
     fontSize: 48,
   },
-  warningText: {
-    padding: 10,
+  warningTextContainer: {
+    paddingTop: 12,
   },
   warningTextHidden: {
     color: Colors.backgroundColor,
-    padding: 10,
   },
 });

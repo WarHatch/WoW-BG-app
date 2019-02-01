@@ -4,25 +4,64 @@ import {
   StyleSheet,
   View,
 } from "react-native";
+import Colors from "../constants/Colors";
 import CounterBox from "../components/CounterBox";
 import CharacterSelect from "../components/CharacterSelect";
+import { ICharacter } from "../constants/IClasses";
 
-export default class DevScreen extends React.Component {
+interface IState {
+  selectedCharacter: ICharacter;
+  characterLevel: number;
+}
+
+export default class DevScreen extends React.Component<{}, IState> {
   public static navigationOptions = {
     header: null,
   };
 
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      selectedCharacter: {
+        // Placeholder default values
+        iconName: "druid",
+        levelCaps: [
+          {
+            health: 2,
+            energy: 4,
+          },
+        ],
+        class: "Druid",
+        name: "Artumnis Moondream",
+      },
+      characterLevel: 1,
+    };
+  }
+
   // TODO: add char class color state
 
   public render() {
+    const { selectedCharacter, characterLevel } = this.state;
+    const { iconName, levelCaps } = selectedCharacter;
+    const currentLevelCap = levelCaps[characterLevel - 1];
+
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <CharacterSelect imageName="druid" />{/* // TODO: change to dynamic reading */}
+          <CharacterSelect imageName={ iconName } />
           <View style={styles.counterSection}>
-            <CounterBox icon={require("../assets/images/blood.png")} valueCap={3} />
-            <CounterBox icon={require("../assets/images/energy.png")} valueCap={3}/>
-            <CounterBox icon={require("../assets/images/coin.png")} />
+            <CounterBox
+              icon={require("../assets/images/blood.png")}
+              valueCap={currentLevelCap.health}
+            />
+            <CounterBox
+              icon={require("../assets/images/energy.png")}
+              valueCap={currentLevelCap.energy}
+            />
+            <CounterBox
+              icon={require("../assets/images/coin.png")}
+              defaultValue={5}
+            />
           </View>
         </ScrollView>
       </View>
@@ -32,7 +71,7 @@ export default class DevScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: Colors.backgroundColor,
     flex: 1,
   },
   contentContainer: {
