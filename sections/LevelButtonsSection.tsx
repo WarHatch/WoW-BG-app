@@ -1,8 +1,8 @@
 import React from "react";
 import {
   StyleSheet,
-  Text,
   View,
+  Alert,
 } from "react-native";
 import { Button } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,6 +13,34 @@ interface IProps {
   levelUpFunc: () => void;
 }
 
+const onReset = (resetFunc: () => void) => {
+  Alert.alert(
+    'Reset your level to 1?',
+    undefined,
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {text: 'Yes', onPress: resetFunc},
+    ],
+  );
+}
+
+const onLevelUp = (levelUpFunc: () => void) => {
+  Alert.alert(
+    'Level up?',
+    'Leveling up will fully restore your health and energy',
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {text: 'Yes', onPress: levelUpFunc},
+    ],
+  );
+}
+
 export default (props: IProps) => {
   const { resetLevelFunc, levelUpFunc } = props;
   const button1Title = "reset level";
@@ -21,13 +49,12 @@ export default (props: IProps) => {
   return (
     <View style={styles.container}>
       <Button
-        //TODO: add reset confirm
-        onPress={resetLevelFunc}
+        onPress={() => onReset(resetLevelFunc)}
         title={button1Title}
         containerStyle={styles.resetButtonContainerStyle}
       />
       <Button
-        onPress={levelUpFunc}
+        onPress={() => onLevelUp(levelUpFunc)}
         title={button2Title}
         containerStyle={styles.levelUpButtonContainerStyle}
       />
