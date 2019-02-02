@@ -10,34 +10,27 @@ import { Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 
 interface IProps {
-  valueCap?: number;
-  defaultValue?: number;
-  icon: any;
-}
-
-interface IState {
   value: number;
+  valueCap?: number;
+  icon: any;
+  increaseFunc: () => void;
+  decreaseFunc: () => void;
 }
 
-export default class CounterBox extends React.Component <IProps, IState> {
+export default class CounterBox extends React.Component <IProps, {}> {
   constructor(props: IProps) {
     super(props);
-    const {valueCap, defaultValue} = props;
-    let startValue;
-    if (defaultValue) {
-      startValue = defaultValue;
-    } else if (valueCap) {
-      startValue = valueCap;
-    } else {
-      startValue = 0;
-    }
-    this.state = {value: startValue};
   }
 
   public render() {
     const title = "overcapped";
-    const { valueCap, icon } = this.props;
-    const { value } = this.state;
+    const {
+      value,
+      valueCap,
+      icon,
+      increaseFunc,
+      decreaseFunc,
+    } = this.props;
 
     return (
       <View style={styles.container}>
@@ -47,30 +40,18 @@ export default class CounterBox extends React.Component <IProps, IState> {
             {title}
           </Text>
         </View>
-        <TouchableOpacity onPress={this.handleUpPress} style={styles.button}>
+        <TouchableOpacity onPress={increaseFunc} style={styles.button}>
           <Ionicons name="ios-arrow-up" size={64} />
         </TouchableOpacity>
         <Text style={styles.valueText}>
           {value}{valueCap ? `/${valueCap}` : null}
         </Text>
-        <TouchableOpacity onPress={this.handleDownPress} style={styles.button}>
+        <TouchableOpacity onPress={decreaseFunc} style={styles.button}>
           <Ionicons name="ios-arrow-down" size={64}/>
         </TouchableOpacity>
         <Image source={icon} style={styles.icon}/>
       </View>
     );
-  }
-
-  private handleUpPress = () => {
-    const oldValue = this.state.value;
-    this.setState({value: oldValue + 1});
-  }
-
-  private handleDownPress = () => {
-    const oldValue = this.state.value;
-    if (oldValue > 0) {
-      this.setState({value: oldValue - 1});
-    }
   }
 }
 

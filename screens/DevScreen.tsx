@@ -16,6 +16,9 @@ import { ICharacter } from "../constants/IClasses";
 interface IState {
   selectedCharacter: ICharacter;
   characterLevel: number;
+  health: number;
+  energy: number;
+  gold: number;
 }
 
 export default class DevScreen extends React.Component<{}, IState> {
@@ -26,34 +29,24 @@ export default class DevScreen extends React.Component<{}, IState> {
   constructor(props: {}) {
     super(props);
 
-    // tslint:disable-next-line:no-require-imports
     const characterClasses = require("../constants/Classes.json");
     const defaultSelectedCharacter = characterClasses.Alliance[0];
 
     this.state = {
       selectedCharacter: defaultSelectedCharacter,
       characterLevel: 1,
+      health: defaultSelectedCharacter.levelCaps[0].health,
+      energy: defaultSelectedCharacter.levelCaps[0].energy,
+      gold: 5,
     };
   }
 
-  public resetLevel() {
-    this.setState({
-      characterLevel: 1,
-    });
-  }
-
-  // TODO: maximize counter values as well
-  public levelUp() {
-    const currentLevel = this.state.characterLevel;
-    if (currentLevel < this.state.selectedCharacter.levelCaps.length) {
-      this.setState({
-        characterLevel: currentLevel + 1,
-      });
-    }
-  }
-
   public render() {
-    const { selectedCharacter, characterLevel } = this.state;
+    const {
+      selectedCharacter,
+      characterLevel,
+      health, energy, gold,
+    } = this.state;
     const { iconName, levelCaps, name } = selectedCharacter;
     const currentLevelCap = levelCaps[characterLevel - 1];
 
@@ -72,20 +65,59 @@ export default class DevScreen extends React.Component<{}, IState> {
           <View style={styles.counterSection}>
             <CounterBox
               icon={require("../assets/images/blood.png")}
+              value={health}
               valueCap={currentLevelCap.health}
+              increaseFunc={() => this.increaseResource("health")}
+              decreaseFunc={() => this.decreaseResource("health")}
             />
             <CounterBox
               icon={require("../assets/images/energy.png")}
+              value={energy}
               valueCap={currentLevelCap.energy}
+              increaseFunc={() => this.increaseResource("energy")}
+              decreaseFunc={() => this.decreaseResource("energy")}
             />
             <CounterBox
               icon={require("../assets/images/coin.png")}
-              defaultValue={5}
+              value={gold}
+              increaseFunc={() => this.increaseResource("gold")}
+              decreaseFunc={() => this.decreaseResource("gold")}
             />
           </View>
         </ScrollView>
       </View>
     );
+  }
+
+  private increaseResource = (resourceName: "health"|"gold"|"energy") => {
+    const oldValue = this.state[resourceName];
+    this.setState({[resourceName]: oldValue + 1});
+  }
+
+  private decreaseResource = (resourceName: "health"|"gold"|"energy") => {
+    const oldValue = this.state[resourceName];
+    if (oldValue > 0) {
+      this.setState({[resourceName]: oldValue - 1});
+    }
+  }
+
+  private resetLevel() {
+    this.setState({
+      characterLevel: 1,
+    });
+  }
+
+  private levelUp() {
+    const {characterLevel, selectedCharacter} = this.state;
+    const newLevel = characterLevel + 1;
+
+    if (characterLevel < selectedCharacter.levelCaps.length) {
+      this.setState({
+        characterLevel: newLevel,
+        health: selectedCharacter.levelCaps[newLevel - 1].health,
+        energy: selectedCharacter.levelCaps[newLevel - 1].energy,
+      });
+    }
   }
 }
 
