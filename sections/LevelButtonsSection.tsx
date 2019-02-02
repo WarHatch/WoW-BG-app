@@ -21,12 +21,15 @@ export default (props: IProps) => {
   return (
     <View style={styles.container}>
       <Button
+        //TODO: add reset confirm
         onPress={resetLevelFunc}
         title={button1Title}
+        containerStyle={styles.resetButtonContainerStyle}
       />
       <Button
         onPress={levelUpFunc}
         title={button2Title}
+        containerStyle={styles.levelUpButtonContainerStyle}
       />
     </View>
   );
@@ -42,4 +45,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  resetButtonContainerStyle: {
+    marginRight: 15,
+  },
+  levelUpButtonContainerStyle: {
+    flex: 1
+  }
 });

@@ -30,7 +30,7 @@ export default class DevScreen extends React.Component<{}, IState> {
     super(props);
 
     const characterClasses = require("../constants/Classes.json");
-    const defaultSelectedCharacter = characterClasses.Alliance[0];
+    const defaultSelectedCharacter = characterClasses.Alliance[1];
 
     this.state = {
       selectedCharacter: defaultSelectedCharacter,
@@ -90,15 +90,22 @@ export default class DevScreen extends React.Component<{}, IState> {
   }
 
   private increaseResource = (resourceName: "health"|"gold"|"energy") => {
-    const oldValue = this.state[resourceName];
-    this.setState({[resourceName]: oldValue + 1});
+    // @ts-ignore
+    this.setState(previousState => {
+      return ({
+        [resourceName]: previousState[resourceName] + 1
+      });
+    });
   }
 
   private decreaseResource = (resourceName: "health"|"gold"|"energy") => {
-    const oldValue = this.state[resourceName];
-    if (oldValue > 0) {
-      this.setState({[resourceName]: oldValue - 1});
-    }
+    // @ts-ignore
+    this.setState(previousState => {
+      if (previousState[resourceName] > 0) {
+        return {[resourceName]: previousState[resourceName] - 1}
+      }
+      return previousState;
+    });
   }
 
   private resetLevel() {

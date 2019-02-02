@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: "center",
-    marginHorizontal: 10,
+    marginHorizontal: 8,
   },
   icon: {
     height: 50,
