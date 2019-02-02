@@ -5,7 +5,15 @@ interface Iimages {
 }
 
 const images: Iimages = {
-    druid: require("./Druid.png"),
+    paladin: require("./paladin.png"),
+    warlock: require("./warlock.png"),
+    rogue: require("./rogue.png"),
+    mage: require("./mage.png"),
+    hunter: require("./hunter.png"),
+    druid: require("./druid.png"),
+    warrior: require("./warrior.png"),
+    shaman: require("./shaman.png"),
+    priest: require("./priest.png"),
 };
 
 export default images;
