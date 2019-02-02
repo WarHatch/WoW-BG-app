@@ -4,9 +4,8 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import DevScreen from '../screens/DevScreen';
+import CharacterScreen from '../screens/CharacterScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -26,20 +25,6 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
-});
-
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
-};
-
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
 });
@@ -54,12 +39,12 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-const DevStack = createStackNavigator({
-  Dev: DevScreen,
+const CharacterStack = createStackNavigator({
+  Character: CharacterScreen,
 });
 
-DevStack.navigationOptions = {
-  tabBarLabel: 'Dev',
+CharacterStack.navigationOptions = {
+  tabBarLabel: 'Character',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -69,8 +54,7 @@ DevStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  DevStack,
+  CharacterStack,
   HomeStack,
-  LinksStack,
   SettingsStack,
 });

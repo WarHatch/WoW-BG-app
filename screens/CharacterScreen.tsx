@@ -21,7 +21,7 @@ interface IState {
   gold: number;
 }
 
-export default class DevScreen extends React.Component<{}, IState> {
+export default class CharacterScreen extends React.Component<{}, IState> {
   public static navigationOptions = {
     header: null,
   };
