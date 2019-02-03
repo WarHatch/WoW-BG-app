@@ -30,7 +30,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
     super(props);
 
     const characterClasses = require("../constants/Classes.json");
-    const defaultSelectedCharacter = characterClasses.Alliance[1];
+    const defaultSelectedCharacter = characterClasses.Alliance[0];
 
     this.state = {
       selectedCharacter: defaultSelectedCharacter,

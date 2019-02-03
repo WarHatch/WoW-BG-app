@@ -26,15 +26,15 @@ export default class CounterBox extends React.Component<IProps, IState> {
 
   public render() {
     const { imageName, characterName, level } = this.props;
-    const levelPrefix = "lvl ";
+    const levelText = "lvl";
 
     return (
       <View style={styles.container}>
         <Image source={ClassImages[imageName]} style={styles.classIcon}/>
         <Text style={styles.characterName}>{characterName}</Text>
         <View style={styles.levelContainer}>
-          <Text>{levelPrefix}</Text>
-          <Text style={styles.levelText}>{level}</Text>
+          <Text>{levelText}</Text>
+          <Text style={styles.levelCountText}>{level}</Text>
         </View>
       </View>
     );
@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "flex-end",
   },
-  levelText: {
+  levelCountText: {
     fontSize: 40,
+    paddingLeft: 3,
   },
 });
