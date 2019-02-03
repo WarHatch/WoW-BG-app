@@ -1,19 +1,22 @@
 import React from "react";
 import {
   StyleSheet,
-  TouchableOpacity,
   Text,
   Image,
   View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { ListItem } from 'react-native-elements'
+
 import Colors from "../constants/Colors";
 import ClassImages from "../assets/images/Classes/index";
+
+import { ICharacter } from "../constants/Classes/IClasses";
 
 interface IProps {
   imageName: string;
   characterName: string;
   level: number;
+  characters: ICharacter[];
 }
 
 interface IState {
@@ -25,29 +28,48 @@ export default class CounterBox extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { imageName, characterName, level } = this.props;
+    const { imageName, characterName, level, characters } = this.props;
     const levelText = "lvl";
 
     return (
-      <View style={styles.container}>
-        <Image source={ClassImages[imageName]} style={styles.classIcon}/>
-        <Text style={styles.characterName}>{characterName}</Text>
-        <View style={styles.levelContainer}>
-          <Text>{levelText}</Text>
-          <Text style={styles.levelCountText}>{level}</Text>
-        </View>
+      <View>
+        {/* Chosen item */}
+        <ListItem
+          containerStyle={styles.container}
+          leftIcon={<Image source={ClassImages[imageName]} style={styles.classIcon} />}
+          title={<Text style={styles.characterName}>{characterName}</Text>}
+          rightTitle={
+            <View style={styles.levelContainer}>
+              <Text>{levelText}</Text>
+              <Text style={styles.levelCountText}>{level}</Text>
+            </View>
+          }
+          onPress={openCharacterList}
+        />
+        {/* OnPress list */}
+        {
+          characters.map((character) => (
+            <ListItem
+              key={character.name}
+              leftIcon={<Image source={ClassImages[character.iconName]} style={styles.classIcon} />}
+              title={<Text style={styles.characterName}>{character.name}</Text>}
+            />
+          ))}
       </View>
     );
   }
 }
 
+const openCharacterList = () => {
+  console.log("A list has opened");
+}
+
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 15,
-    marginVertical: 10,
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "teal"
   },
   characterName: {
     fontSize: 20,
@@ -55,7 +77,6 @@ const styles = StyleSheet.create({
   classIcon: {
     height: 50,
     width: 50,
-    marginRight: 15,
   },
   levelContainer: {
     flex: 1,

@@ -11,7 +11,8 @@ import CounterBox from "../components/CounterBox";
 import CharacterSelect from "../components/CharacterSelect";
 import LevelButtonsSection from "../sections/LevelButtonsSection";
 
-import { ICharacter } from "../constants/IClasses";
+import { ICharacter } from "../constants/Classes/IClasses";
+import CharacterClasses from "../constants/Classes";
 
 interface IState {
   selectedCharacter: ICharacter;
@@ -28,9 +29,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
 
   constructor(props: {}) {
     super(props);
-
-    const characterClasses = require("../constants/Classes.json");
-    const defaultSelectedCharacter = characterClasses.Alliance[0];
+    const defaultSelectedCharacter = CharacterClasses.Alliance[0];
 
     this.state = {
       selectedCharacter: defaultSelectedCharacter,
@@ -49,12 +48,17 @@ export default class CharacterScreen extends React.Component<{}, IState> {
     } = this.state;
     const { iconName, levelCaps, name } = selectedCharacter;
     const currentLevelCap = levelCaps[characterLevel - 1];
-
+    const fullCharacterList = CharacterClasses.Alliance.concat(CharacterClasses.Horde);
+    
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.headerSection}>
-            <CharacterSelect imageName={ iconName } characterName={name} level={characterLevel} />
+            <CharacterSelect
+              imageName={ iconName }
+              characterName={name}
+              level={characterLevel}
+              characters={fullCharacterList}/>
           </View>
 
           <LevelButtonsSection
