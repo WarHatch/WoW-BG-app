@@ -11,7 +11,6 @@ import CounterBox from "../components/CounterBox";
 import CharacterSelect from "../components/CharacterSelect";
 import LevelButtonsSection from "../sections/LevelButtonsSection";
 
-import { ICharacter } from "../constants/Classes/IClasses";
 import CharacterClasses from "../constants/Classes";
 
 interface IState {
@@ -68,21 +67,21 @@ export default class CharacterScreen extends React.Component<{}, IState> {
 
           <View style={styles.counterSection}>
             <CounterBox
-              icon={require("../assets/images/blood.png")}
+              icon={require("../assets/images/blood128.png")}
               value={health}
               valueCap={currentLevelCap.health}
               increaseFunc={() => this.increaseResource("health")}
               decreaseFunc={() => this.decreaseResource("health")}
             />
             <CounterBox
-              icon={require("../assets/images/energy.png")}
+              icon={require("../assets/images/energy128.png")}
               value={energy}
               valueCap={currentLevelCap.energy}
               increaseFunc={() => this.increaseResource("energy")}
               decreaseFunc={() => this.decreaseResource("energy")}
             />
             <CounterBox
-              icon={require("../assets/images/coin.png")}
+              icon={require("../assets/images/gold128.png")}
               value={gold}
               increaseFunc={() => this.increaseResource("gold")}
               decreaseFunc={() => this.decreaseResource("gold")}
