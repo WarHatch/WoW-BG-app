@@ -17,18 +17,30 @@ interface IProps {
   characterName: string;
   level: number;
   characters: ICharacter[];
+  // onChangeCharacter: ()
 }
 
 interface IState {
+  characterMenuVisible: boolean,
 }
 
 export default class CounterBox extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+    this.state = {
+      characterMenuVisible: false,
+    }
+  }
+
+  toggleChracterList = () => {
+    this.setState((oldState) => ({
+      characterMenuVisible: !oldState.characterMenuVisible
+    }))
   }
 
   public render() {
     const { imageName, characterName, level, characters } = this.props;
+    const { characterMenuVisible } = this.state;
     const levelText = "lvl";
 
     return (
@@ -44,24 +56,22 @@ export default class CounterBox extends React.Component<IProps, IState> {
               <Text style={styles.levelCountText}>{level}</Text>
             </View>
           }
-          onPress={openCharacterList}
+          onPress={this.toggleChracterList}
         />
-        {/* OnPress list */}
         {
+          /* OnPress list */
+          characterMenuVisible ?
           characters.map((character) => (
             <ListItem
               key={character.name}
               leftIcon={<Image source={ClassImages[character.iconName]} style={styles.classIcon} />}
               title={<Text style={styles.characterName}>{character.name}</Text>}
             />
-          ))}
+          )) : null
+        }
       </View>
     );
   }
-}
-
-const openCharacterList = () => {
-  console.log("A list has opened");
 }
 
 const styles = StyleSheet.create({

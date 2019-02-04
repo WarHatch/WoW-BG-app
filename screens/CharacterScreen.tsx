@@ -49,7 +49,8 @@ export default class CharacterScreen extends React.Component<{}, IState> {
 
     const currentLevelCap = levelCaps[characterLevel - 1]; // health and energy caps
 
-    const fullCharacterList = CharacterClasses.Alliance.concat(CharacterClasses.Horde);
+    const pickableCharacters = CharacterClasses.Alliance.concat(CharacterClasses.Horde)
+      .filter((character) => character.name != selectedCharacter.name);
     
     return (
       <View style={styles.container}>
@@ -59,7 +60,8 @@ export default class CharacterScreen extends React.Component<{}, IState> {
               imageName={ iconName }
               characterName={name}
               level={characterLevel}
-              characters={fullCharacterList}/>
+              characters={pickableCharacters}
+            />
           </View>
 
           <LevelButtonsSection
