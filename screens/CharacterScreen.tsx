@@ -7,9 +7,9 @@ import {
 
 import Colors from "../constants/Colors";
 
-import CounterBox from "../components/CounterBox";
 import CharacterSelect from "../components/CharacterSelect";
 import LevelButtonsSection from "../sections/LevelButtonsSection";
+import CountersSection from "../sections/CountersSection";
 
 import CharacterClasses from "../constants/Classes";
 
@@ -46,7 +46,9 @@ export default class CharacterScreen extends React.Component<{}, IState> {
       health, energy, gold,
     } = this.state;
     const { iconName, levelCaps, name } = selectedCharacter;
-    const currentLevelCap = levelCaps[characterLevel - 1];
+
+    const currentLevelCap = levelCaps[characterLevel - 1]; // health and energy caps
+
     const fullCharacterList = CharacterClasses.Alliance.concat(CharacterClasses.Horde);
     
     return (
@@ -65,28 +67,15 @@ export default class CharacterScreen extends React.Component<{}, IState> {
             levelUpFunc={() => this.levelUp()}
           />
 
-          <View style={styles.counterSection}>
-            <CounterBox
-              icon={require("../assets/images/blood128.png")}
-              value={health}
-              valueCap={currentLevelCap.health}
-              increaseFunc={() => this.increaseResource("health")}
-              decreaseFunc={() => this.decreaseResource("health")}
-            />
-            <CounterBox
-              icon={require("../assets/images/energy128.png")}
-              value={energy}
-              valueCap={currentLevelCap.energy}
-              increaseFunc={() => this.increaseResource("energy")}
-              decreaseFunc={() => this.decreaseResource("energy")}
-            />
-            <CounterBox
-              icon={require("../assets/images/gold128.png")}
-              value={gold}
-              increaseFunc={() => this.increaseResource("gold")}
-              decreaseFunc={() => this.decreaseResource("gold")}
-            />
-          </View>
+          <CountersSection
+            health={health}
+            healthCap={currentLevelCap.health}
+            energy={energy}
+            energyCap={currentLevelCap.energy}
+            gold={gold}
+            increaseResource={(resourceName: "health"|"gold"|"energy") => this.increaseResource(resourceName)}
+            decreaseResource={(resourceName: "health"|"gold"|"energy") => this.decreaseResource(resourceName)}
+          />
         </ScrollView>
       </View>
     );
