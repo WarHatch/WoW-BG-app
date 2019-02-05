@@ -3,7 +3,9 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  Alert,
 } from "react-native";
+import RNShake from "react-native-shake";
 
 import Colors, {FactionColorOf} from "../constants/Colors";
 
@@ -44,6 +46,19 @@ export default class CharacterScreen extends React.Component<{}, IState> {
     };
   }
 
+  // TODO: test shake event firing
+  // tslint:disable-next-line:member-access
+  componentWillMount() {
+    RNShake.addEventListener("ShakeEvent", () => {
+      this.resetCharacter();
+    });
+  }
+
+  // tslint:disable-next-line:member-access
+  componentWillUnmount() {
+    RNShake.removeEventListener("ShakeEvent");
+  }
+
   public render() {
     const {
       selectedCharacter,
@@ -71,7 +86,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
           />
 
           <LevelButtonsSection
-            resetLevelFunc={() => this.resetLevel()}
+            // resetCharacterFunc={() => this.resetCharacter()}
             levelUpFunc={() => this.levelUp()}
           />
 
@@ -125,12 +140,6 @@ export default class CharacterScreen extends React.Component<{}, IState> {
     });
   }
 
-  public resetLevel() {
-    this.setState({
-      characterLevel: 1,
-    });
-  }
-
   public levelUp() {
     const { characterLevel, selectedCharacter } = this.state;
     const newLevel = characterLevel + 1;
@@ -142,6 +151,23 @@ export default class CharacterScreen extends React.Component<{}, IState> {
         energy: selectedCharacter.levelCaps[newLevel - 1].energy,
       });
     }
+  }
+
+  public resetCharacter() {
+    Alert.alert(
+      "Reset your character?",
+      "Health and Energy will be reset to level 1 maximum values and you'll have 5 Coins",
+      [
+        {
+          text: "No",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => this.changeSelectedCharacter(this.state.selectedCharacter.name),
+        },
+      ],
+    );
   }
 }
 
