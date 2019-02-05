@@ -7,7 +7,9 @@ import {
 } from "react-native";
 import { ListItem } from "react-native-elements";
 
-import Colors from "../constants/Colors";
+import CurrentCharacter from "./CurrentCharacter";
+
+import Colors, {FactionColorOf} from "../constants/Colors";
 import ClassImages from "../assets/images/Classes/index";
 
 interface IProps {
@@ -42,39 +44,36 @@ export default class CounterBox extends React.Component<IProps, IState> {
       imageName,
       characterName,
       level,
-      characters,
       selectedFaction,
+      characters,
       changeCharacterFunc,
     } = this.props;
     const { characterMenuVisible } = this.state;
-    const levelText = "lvl";
 
     return (
       <View>
-        {/* Chosen item */}
-        <ListItem
-          containerStyle={{
-            ...styles.selectedCharacter,
-            backgroundColor: this.factionColor(selectedFaction),
-          }}
-          leftIcon={<Image source={ClassImages[imageName]} style={styles.classIcon} />}
-          title={<Text style={styles.characterName}>{characterName}</Text>}
-          rightTitle={
-            <View style={styles.levelContainer}>
-              <Text>{levelText}</Text>
-              <Text style={styles.levelCountText}>{level}</Text>
-            </View>
-          }
-          onPress={this.toggleChracterList}
+        <CurrentCharacter
+          imageName={imageName}
+          characterName={characterName}
+          level={level}
+          faction={selectedFaction}
+          onClick={this.toggleChracterList}
         />
         {
           /* OnPress list */
           characterMenuVisible ?
           characters.map((character) => (
             <ListItem
+              containerStyle={{backgroundColor: FactionColorOf(character.faction)}}
               key={character.name}
-              leftIcon={<Image source={ClassImages[character.iconName]} style={styles.classIcon} />}
-              title={<Text style={styles.characterName}>{character.name}</Text>}
+              leftIcon={
+                <Image source={ClassImages[character.iconName]} style={styles.classIcon} />
+              }
+              title={
+                <Text style={styles.characterName}>
+                  {character.name}
+                </Text>
+              }
               onPress={() => {
                 this.toggleChracterList();
                 changeCharacterFunc(character.name);
@@ -85,46 +84,14 @@ export default class CounterBox extends React.Component<IProps, IState> {
       </View>
     );
   }
-
-  private factionColor = (faction: string) => {
-    const hordeName = "Horde";
-    const allianceName = "Alliance";
-
-    if (faction === hordeName) {
-      return Colors.hordeBackground;
-    } else if (faction === allianceName) {
-      return Colors.allianceBackgroud;
-    } else {
-      throw new Error(
-        `Incorrect faction name passed. Expecting "${hordeName}"|"${allianceName}". Received: ${faction}`,
-      );
-    }
-  }
 }
 
 const styles = StyleSheet.create({
-  selectedCharacter: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    borderBottomWidth: 2,
-    borderColor: Colors.borderColor,
-  },
   characterName: {
     fontSize: 20,
   },
   classIcon: {
     height: 50,
     width: 50,
-  },
-  levelContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
-  },
-  levelCountText: {
-    fontSize: 40,
-    paddingLeft: 3,
   },
 });

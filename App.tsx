@@ -9,7 +9,7 @@ import {
   Platform,
   StatusBar,
   StyleSheet,
-  View,
+  SafeAreaView,
 } from "react-native";
 import AppNavigator from "./navigation/AppNavigator";
 
@@ -53,10 +53,9 @@ export default class App extends React.Component {
       );
     }
     return (
-      <View style={styles.container}>
-        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+      <SafeAreaView style={styles.container}>
         <AppNavigator />
-      </View>
+      </SafeAreaView >
     );
   }
 }

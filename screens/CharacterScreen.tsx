@@ -5,8 +5,9 @@ import {
   View,
 } from "react-native";
 
-import Colors from "../constants/Colors";
+import Colors, {FactionColorOf} from "../constants/Colors";
 
+import StatusBarBackground from "../components/Android/StatusBarBackground";
 import CharacterSelect from "../components/CharacterSelect";
 import LevelButtonsSection from "../sections/LevelButtonsSection";
 import CountersSection from "../sections/CountersSection";
@@ -58,17 +59,16 @@ export default class CharacterScreen extends React.Component<{}, IState> {
 
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.headerSection}>
-            <CharacterSelect
-              imageName={iconName}
-              characterName={name}
-              level={characterLevel}
-              characters={pickableCharacters}
-              selectedFaction={faction}
-              changeCharacterFunc={(characterName) => this.changeSelectedCharacter(characterName)}
-            />
-          </View>
+        <ScrollView>
+          <StatusBarBackground backgroundColor={FactionColorOf(selectedCharacter.faction)} />
+          <CharacterSelect
+            imageName={iconName}
+            characterName={name}
+            level={characterLevel}
+            characters={pickableCharacters}
+            selectedFaction={faction}
+            changeCharacterFunc={(characterName) => this.changeSelectedCharacter(characterName)}
+          />
 
           <LevelButtonsSection
             resetLevelFunc={() => this.resetLevel()}
@@ -149,15 +149,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.backgroundColor,
     flex: 1,
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  counterSection: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  headerSection: {
+    paddingBottom: 10,
   },
 });
