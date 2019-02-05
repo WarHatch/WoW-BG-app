@@ -9,7 +9,7 @@ import { ListItem } from "react-native-elements";
 
 import CurrentCharacter from "./CurrentCharacter";
 
-import Colors, {FactionColorOf} from "../constants/Colors";
+import {FactionColorOf} from "../constants/Colors";
 import ClassImages from "../assets/images/Classes/index";
 
 interface IProps {
@@ -19,6 +19,7 @@ interface IProps {
   selectedFaction: "Alliance"|"Horde";
   characters: ICharacter[];
   changeCharacterFunc: (characterName: string) => void;
+  toggleCharacterInfo: () => void;
 }
 
 interface IState {
@@ -37,6 +38,7 @@ export default class CounterBox extends React.Component<IProps, IState> {
     this.setState((oldState) => ({
       characterMenuVisible: !oldState.characterMenuVisible,
     }));
+    this.props.toggleCharacterInfo();
   }
 
   public render() {

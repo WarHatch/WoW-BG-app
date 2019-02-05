@@ -22,6 +22,7 @@ interface IState {
   health: number;
   energy: number;
   gold: number;
+  characterInfoHidden: boolean;
 }
 
 export default class CharacterScreen extends React.Component<{}, IState> {
@@ -43,6 +44,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
       health: defaultSelectedCharacter.levelCaps[0].health,
       energy: defaultSelectedCharacter.levelCaps[0].energy,
       gold: 5,
+      characterInfoHidden: false,
     };
   }
 
@@ -64,6 +66,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
       selectedCharacter,
       characterLevel,
       health, energy, gold,
+      characterInfoHidden,
     } = this.state;
     const { iconName, levelCaps, name, faction } = selectedCharacter;
 
@@ -83,26 +86,36 @@ export default class CharacterScreen extends React.Component<{}, IState> {
             characters={pickableCharacters}
             selectedFaction={faction}
             changeCharacterFunc={(characterName) => this.changeSelectedCharacter(characterName)}
+            toggleCharacterInfo={() => this.toggleCharacterInfo()}
           />
-
-          <LevelButtonsSection
-            // resetCharacterFunc={() => this.resetCharacter()}
-            levelUpFunc={() => this.levelUp()}
-            factionStyle={faction}
-          />
-
-          <CountersSection
-            health={health}
-            healthCap={currentLevelCap.health}
-            energy={energy}
-            energyCap={currentLevelCap.energy}
-            gold={gold}
-            increaseResource={(resourceName: "health" | "gold" | "energy") => this.increaseResource(resourceName)}
-            decreaseResource={(resourceName: "health" | "gold" | "energy") => this.decreaseResource(resourceName)}
-          />
+          { !characterInfoHidden && (
+            <View style={styles.characterInfo}>
+              <LevelButtonsSection
+                // resetCharacterFunc={() => this.resetCharacter()}
+                levelUpFunc={() => this.levelUp()}
+                factionStyle={faction}
+              />
+              <CountersSection
+                health={health}
+                healthCap={currentLevelCap.health}
+                energy={energy}
+                energyCap={currentLevelCap.energy}
+                gold={gold}
+                increaseResource={(resourceName: "health" | "gold" | "energy") => this.increaseResource(resourceName)}
+                decreaseResource={(resourceName: "health" | "gold" | "energy") => this.decreaseResource(resourceName)}
+              />
+            </View>
+            )
+          }
         </ScrollView>
       </View>
     );
+  }
+
+  public toggleCharacterInfo = () => {
+    this.setState((previousState) => ({
+      characterInfoHidden: !previousState.characterInfoHidden,
+    }));
   }
 
   public changeSelectedCharacter = (newSelectedName: string) => {
@@ -176,6 +189,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.backgroundColor,
     flex: 1,
+  },
+  characterInfo: {
     paddingBottom: 10,
   },
 });
