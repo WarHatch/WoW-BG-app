@@ -4,6 +4,7 @@
             "name": "Artumnis Moondream",
             "class": "Druid",
             "iconName": "druid",
+            "faction": "Alliance",
             "levelCaps": [
                 {
                     "health": 2,
@@ -31,6 +32,7 @@
             "name": "Alissi Quicksting",
             "class": "Rogue",
             "iconName": "rogue",
+            "faction": "Alliance",
             "levelCaps": [
                 {
                     "health": 3,
@@ -58,6 +60,7 @@
             "name": "Shailara Whitherblade",
             "class": "Warrior",
             "iconName": "warrior",
+            "faction": "Alliance",
             "levelCaps": [
                 {
                     "health": 4,
@@ -85,6 +88,7 @@
             "name": "Brebo Bigshot",
             "class": "Mage",
             "iconName": "mage",
+            "faction": "Alliance",
             "levelCaps": [
                 {
                     "health": 2,
@@ -112,6 +116,7 @@
             "name": "Burbon Fang",
             "class": "Hunter",
             "iconName": "hunter",
+            "faction": "Alliance",
             "levelCaps": [
                 {
                     "health": 3,
@@ -139,6 +144,7 @@
             "name": "Weefla Sorrowfall",
             "class": "Priest",
             "iconName": "priest",
+            "faction": "Alliance",
             "levelCaps": [
                 {
                     "health": 2,
@@ -166,6 +172,7 @@
             "name": "Sandrai Darkshine",
             "class": "Warlock",
             "iconName": "warlock",
+            "faction": "Alliance",
             "levelCaps": [
                 {
                     "health": 2,
@@ -193,6 +200,7 @@
             "name": "Brandon Lightstone",
             "class": "Paladin",
             "iconName": "paladin",
+            "faction": "Alliance",
             "levelCaps": [
                 {
                     "health": 3,
@@ -222,6 +230,7 @@
             "name": "Meadowfrey",
             "class": "Druid",
             "iconName": "druid",
+            "faction": "Horde",
             "levelCaps": [
                 {
                     "health": 2,
@@ -249,6 +258,7 @@
             "name": "Dongon Swiftblade",
             "class": "Rogue",
             "iconName": "rogue",
+            "faction": "Horde",
             "levelCaps": [
                 {
                     "health": 3,
@@ -276,6 +286,7 @@
             "name": "Grumbaz Crowsblood",
             "class": "Warrior",
             "iconName": "warrior",
+            "faction": "Horde",
             "levelCaps": [
                 {
                     "health": 4,
@@ -303,6 +314,7 @@
             "name": "Sofeea Icecall",
             "class": "Mage",
             "iconName": "mage",
+            "faction": "Horde",
             "levelCaps": [
                 {
                     "health": 2,
@@ -330,6 +342,7 @@
             "name": "Thundershot",
             "class": "Hunter",
             "iconName": "hunter",
+            "faction": "Horde",
             "levelCaps": [
                 {
                     "health": 3,
@@ -357,6 +370,7 @@
             "name": "Wennu Bloodsinger",
             "class": "Priest",
             "iconName": "priest",
+            "faction": "Horde",
             "levelCaps": [
                 {
                     "health": 2,
@@ -384,6 +398,7 @@
             "name": "Leeam Sagewind",
             "class": "Warlock",
             "iconName": "warlock",
+            "faction": "Horde",
             "levelCaps": [
                 {
                     "health": 2,
@@ -411,6 +426,7 @@
             "name": "Zowka Shattertusk",
             "class": "Shaman",
             "iconName": "shaman",
+            "faction": "Horde",
             "levelCaps": [
                 {
                     "health": 3,

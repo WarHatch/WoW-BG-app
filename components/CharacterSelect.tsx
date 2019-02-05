@@ -14,6 +14,7 @@ interface IProps {
   imageName: string;
   characterName: string;
   level: number;
+  selectedFaction: "Alliance"|"Horde";
   characters: ICharacter[];
   changeCharacterFunc: (characterName: string) => void;
 }
@@ -42,6 +43,7 @@ export default class CounterBox extends React.Component<IProps, IState> {
       characterName,
       level,
       characters,
+      selectedFaction,
       changeCharacterFunc,
     } = this.props;
     const { characterMenuVisible } = this.state;
@@ -51,7 +53,10 @@ export default class CounterBox extends React.Component<IProps, IState> {
       <View>
         {/* Chosen item */}
         <ListItem
-          containerStyle={styles.selectedCharacter}
+          containerStyle={{
+            ...styles.selectedCharacter,
+            backgroundColor: this.factionColor(selectedFaction),
+          }}
           leftIcon={<Image source={ClassImages[imageName]} style={styles.classIcon} />}
           title={<Text style={styles.characterName}>{characterName}</Text>}
           rightTitle={
@@ -80,6 +85,21 @@ export default class CounterBox extends React.Component<IProps, IState> {
       </View>
     );
   }
+
+  private factionColor = (faction: string) => {
+    const hordeName = "Horde";
+    const allianceName = "Alliance";
+
+    if (faction === hordeName) {
+      return Colors.hordeBackground;
+    } else if (faction === allianceName) {
+      return Colors.allianceBackgroud;
+    } else {
+      throw new Error(
+        `Incorrect faction name passed. Expecting "${hordeName}"|"${allianceName}". Received: ${faction}`,
+      );
+    }
+  }
 }
 
 const styles = StyleSheet.create({
@@ -87,7 +107,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "teal",
     borderBottomWidth: 2,
     borderColor: Colors.borderColor,
   },

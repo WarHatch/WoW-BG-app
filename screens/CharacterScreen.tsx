@@ -49,7 +49,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
       characterLevel,
       health, energy, gold,
     } = this.state;
-    const { iconName, levelCaps, name } = selectedCharacter;
+    const { iconName, levelCaps, name, faction } = selectedCharacter;
 
     const currentLevelCap = levelCaps[characterLevel - 1]; // health and energy caps
 
@@ -65,6 +65,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
               characterName={name}
               level={characterLevel}
               characters={pickableCharacters}
+              selectedFaction={faction}
               changeCharacterFunc={(characterName) => this.changeSelectedCharacter(characterName)}
             />
           </View>
@@ -101,7 +102,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
         gold: 5,
       });
     } else {
-      throw new Error("Unable to find character by passed `newSelectedName` when trying to change character");
+      throw new Error(`Unable to find character "${newSelectedName}" when trying to change character`);
     }
   }
 

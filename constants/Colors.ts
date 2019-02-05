@@ -14,4 +14,7 @@ export default {
   warningText: "#666804",
   noticeBackground: tintColor,
   noticeText: "#fff",
+
+  allianceBackgroud: "#2162ef",
+  hordeBackground: "#d53131",
 };

@@ -8,6 +8,7 @@ interface ICharacter {
     "class": string;
     "iconName": string;
     "levelCaps": ILevelCap[];
+    "faction": "Alliance"|"Horde";
 }
 
 interface IClasses {
