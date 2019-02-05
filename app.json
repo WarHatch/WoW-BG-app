@@ -23,7 +23,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.warhatch.WoWBGmanager"
+    },
+    "android": {
+      "package": "com.warhatch.WoWBGmanager"
     }
   }
 }
