@@ -10,10 +10,11 @@ import Colors from "../constants/Colors";
 interface IProps {
   // resetLevelFunc: () => void;
   levelUpFunc: () => void;
+  factionStyle: "Horde"|"Alliance";
 }
 
 export default (props: IProps) => {
-  const { levelUpFunc } = props;
+  const { levelUpFunc, factionStyle } = props;
   const button2Title = "Level up!";
 
   return (
@@ -21,7 +22,8 @@ export default (props: IProps) => {
       <Button
         onLongPress={levelUpFunc}
         title={button2Title}
-        containerStyle={styles.levelUpButtonContainerStyle}
+        containerStyle={ styles.levelUpButtonContainerStyle}
+        buttonStyle={factionStyle === "Horde" && styles.levelUpButtonHorde}
       />
     </View>
   );
@@ -42,5 +44,8 @@ const styles = StyleSheet.create({
   },
   levelUpButtonContainerStyle: {
     flex: 1,
+  },
+  levelUpButtonHorde: {
+    backgroundColor: "#d64343",
   },
 });

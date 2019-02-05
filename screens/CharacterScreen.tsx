@@ -88,6 +88,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
           <LevelButtonsSection
             // resetCharacterFunc={() => this.resetCharacter()}
             levelUpFunc={() => this.levelUp()}
+            factionStyle={faction}
           />
 
           <CountersSection
