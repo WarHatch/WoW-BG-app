@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
     fontSize: 48,
   },
   warningTextContainer: {
-    paddingTop: 12,
   },
   warningTextHidden: {
     color: Colors.backgroundColor,

@@ -1,12 +1,12 @@
 import React from "react";
 import {
   StyleSheet,
-  TouchableOpacity,
   Text,
   Image,
   View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { ListItem } from "react-native-elements";
+
 import Colors from "../constants/Colors";
 import ClassImages from "../assets/images/Classes/index";
 
@@ -14,40 +14,82 @@ interface IProps {
   imageName: string;
   characterName: string;
   level: number;
+  characters: ICharacter[];
+  changeCharacterFunc: (characterName: string) => void;
 }
 
 interface IState {
+  characterMenuVisible: boolean;
 }
 
 export default class CounterBox extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+    this.state = {
+      characterMenuVisible: false,
+    };
+  }
+
+  public toggleChracterList = () => {
+    this.setState((oldState) => ({
+      characterMenuVisible: !oldState.characterMenuVisible,
+    }));
   }
 
   public render() {
-    const { imageName, characterName, level } = this.props;
-    const levelPrefix = "lvl ";
+    const {
+      imageName,
+      characterName,
+      level,
+      characters,
+      changeCharacterFunc,
+    } = this.props;
+    const { characterMenuVisible } = this.state;
+    const levelText = "lvl";
 
     return (
-      <View style={styles.container}>
-        <Image source={ClassImages[imageName]} style={styles.classIcon}/>
-        <Text style={styles.characterName}>{characterName}</Text>
-        <View style={styles.levelContainer}>
-          <Text>{levelPrefix}</Text>
-          <Text style={styles.levelText}>{level}</Text>
-        </View>
+      <View>
+        {/* Chosen item */}
+        <ListItem
+          containerStyle={styles.selectedCharacter}
+          leftIcon={<Image source={ClassImages[imageName]} style={styles.classIcon} />}
+          title={<Text style={styles.characterName}>{characterName}</Text>}
+          rightTitle={
+            <View style={styles.levelContainer}>
+              <Text>{levelText}</Text>
+              <Text style={styles.levelCountText}>{level}</Text>
+            </View>
+          }
+          onPress={this.toggleChracterList}
+        />
+        {
+          /* OnPress list */
+          characterMenuVisible ?
+          characters.map((character) => (
+            <ListItem
+              key={character.name}
+              leftIcon={<Image source={ClassImages[character.iconName]} style={styles.classIcon} />}
+              title={<Text style={styles.characterName}>{character.name}</Text>}
+              onPress={() => {
+                this.toggleChracterList();
+                changeCharacterFunc(character.name);
+              }}
+            />
+          )) : null
+        }
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 15,
-    marginVertical: 10,
+  selectedCharacter: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "teal",
+    borderBottomWidth: 2,
+    borderColor: Colors.borderColor,
   },
   characterName: {
     fontSize: 20,
@@ -55,7 +97,6 @@ const styles = StyleSheet.create({
   classIcon: {
     height: 50,
     width: 50,
-    marginRight: 15,
   },
   levelContainer: {
     flex: 1,
@@ -63,7 +104,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "flex-end",
   },
-  levelText: {
+  levelCountText: {
     fontSize: 40,
+    paddingLeft: 3,
   },
 });

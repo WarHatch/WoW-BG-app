@@ -14,6 +14,3 @@ interface IClasses {
     "Alliance": ICharacter[];
     "Horde": ICharacter[];
 }
-
-export default IClasses;
-export {ILevelCap, ICharacter, IClasses};

@@ -7,11 +7,11 @@ import {
 
 import Colors from "../constants/Colors";
 
-import CounterBox from "../components/CounterBox";
 import CharacterSelect from "../components/CharacterSelect";
 import LevelButtonsSection from "../sections/LevelButtonsSection";
+import CountersSection from "../sections/CountersSection";
 
-import { ICharacter } from "../constants/IClasses";
+import CharacterClasses from "../constants/Classes";
 
 interface IState {
   selectedCharacter: ICharacter;
@@ -26,11 +26,13 @@ export default class CharacterScreen extends React.Component<{}, IState> {
     header: null,
   };
 
+  public fullCharacterList: ICharacter[];
+
   constructor(props: {}) {
     super(props);
 
-    const characterClasses = require("../constants/Classes.json");
-    const defaultSelectedCharacter = characterClasses.Alliance[1];
+    this.fullCharacterList = CharacterClasses.Alliance.concat(CharacterClasses.Horde);
+    const defaultSelectedCharacter = CharacterClasses.Alliance[0];
 
     this.state = {
       selectedCharacter: defaultSelectedCharacter,
@@ -48,13 +50,23 @@ export default class CharacterScreen extends React.Component<{}, IState> {
       health, energy, gold,
     } = this.state;
     const { iconName, levelCaps, name } = selectedCharacter;
-    const currentLevelCap = levelCaps[characterLevel - 1];
+
+    const currentLevelCap = levelCaps[characterLevel - 1]; // health and energy caps
+
+    const pickableCharacters = this.fullCharacterList
+      .filter((character) => character.name !== selectedCharacter.name);
 
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.headerSection}>
-            <CharacterSelect imageName={ iconName } characterName={name} level={characterLevel} />
+            <CharacterSelect
+              imageName={iconName}
+              characterName={name}
+              level={characterLevel}
+              characters={pickableCharacters}
+              changeCharacterFunc={(characterName) => this.changeSelectedCharacter(characterName)}
+            />
           </View>
 
           <LevelButtonsSection
@@ -62,60 +74,64 @@ export default class CharacterScreen extends React.Component<{}, IState> {
             levelUpFunc={() => this.levelUp()}
           />
 
-          <View style={styles.counterSection}>
-            <CounterBox
-              icon={require("../assets/images/blood.png")}
-              value={health}
-              valueCap={currentLevelCap.health}
-              increaseFunc={() => this.increaseResource("health")}
-              decreaseFunc={() => this.decreaseResource("health")}
-            />
-            <CounterBox
-              icon={require("../assets/images/energy.png")}
-              value={energy}
-              valueCap={currentLevelCap.energy}
-              increaseFunc={() => this.increaseResource("energy")}
-              decreaseFunc={() => this.decreaseResource("energy")}
-            />
-            <CounterBox
-              icon={require("../assets/images/coin.png")}
-              value={gold}
-              increaseFunc={() => this.increaseResource("gold")}
-              decreaseFunc={() => this.decreaseResource("gold")}
-            />
-          </View>
+          <CountersSection
+            health={health}
+            healthCap={currentLevelCap.health}
+            energy={energy}
+            energyCap={currentLevelCap.energy}
+            gold={gold}
+            increaseResource={(resourceName: "health" | "gold" | "energy") => this.increaseResource(resourceName)}
+            decreaseResource={(resourceName: "health" | "gold" | "energy") => this.decreaseResource(resourceName)}
+          />
         </ScrollView>
       </View>
     );
   }
 
-  private increaseResource = (resourceName: "health"|"gold"|"energy") => {
+  public changeSelectedCharacter = (newSelectedName: string) => {
+    const newCharacter = this.fullCharacterList
+      .find((character) => character.name === newSelectedName);
+    if (newCharacter) {
+      this.setState({
+        selectedCharacter: newCharacter,
+        // and reset stats
+        characterLevel: 1,
+        health: newCharacter.levelCaps[0].health,
+        energy: newCharacter.levelCaps[0].energy,
+        gold: 5,
+      });
+    } else {
+      throw new Error("Unable to find character by passed `newSelectedName` when trying to change character");
+    }
+  }
+
+  public increaseResource = (resourceName: "health" | "gold" | "energy") => {
     // @ts-ignore
-    this.setState(previousState => {
+    this.setState((previousState) => {
       return ({
-        [resourceName]: previousState[resourceName] + 1
+        [resourceName]: previousState[resourceName] + 1,
       });
     });
   }
 
-  private decreaseResource = (resourceName: "health"|"gold"|"energy") => {
+  public decreaseResource = (resourceName: "health" | "gold" | "energy") => {
     // @ts-ignore
-    this.setState(previousState => {
+    this.setState((previousState) => {
       if (previousState[resourceName] > 0) {
-        return {[resourceName]: previousState[resourceName] - 1}
+        return { [resourceName]: previousState[resourceName] - 1 };
       }
       return previousState;
     });
   }
 
-  private resetLevel() {
+  public resetLevel() {
     this.setState({
       characterLevel: 1,
     });
   }
 
-  private levelUp() {
-    const {characterLevel, selectedCharacter} = this.state;
+  public levelUp() {
+    const { characterLevel, selectedCharacter } = this.state;
     const newLevel = characterLevel + 1;
 
     if (characterLevel < selectedCharacter.levelCaps.length) {
@@ -142,7 +158,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerSection: {
-    borderBottomWidth: 2,
-    borderColor: Colors.borderColor,
   },
 });
