@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   View,
+  Vibration,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
@@ -32,19 +33,33 @@ export default class CounterBox extends React.Component <IProps, {}> {
       decreaseFunc,
     } = this.props;
 
+    const vibrationDuration = 75; // ms
+
     return (
       <View style={styles.container}>
         <Text style={valueCap && value > valueCap ? null : styles.warningTextHidden}>
           <Ionicons name="md-warning" />
           {title}
         </Text>
-        <TouchableOpacity onPress={increaseFunc} style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            increaseFunc();
+            Vibration.vibrate(vibrationDuration, false);
+          }}
+        >
           <Ionicons name="ios-arrow-up" size={64} />
         </TouchableOpacity>
         <Text style={styles.valueText}>
           {value}{valueCap ? `/${valueCap}` : null}
         </Text>
-        <TouchableOpacity onPress={decreaseFunc} style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            decreaseFunc();
+            Vibration.vibrate(vibrationDuration, false);
+          }}
+        >
           <Ionicons name="ios-arrow-down" size={64}/>
         </TouchableOpacity>
         <Image source={icon} style={styles.icon}/>
