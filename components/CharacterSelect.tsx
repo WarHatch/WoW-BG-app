@@ -65,6 +65,7 @@ export default class CounterBox extends React.Component<IProps, IState> {
           characters.map((character) => (
             <ListItem
               containerStyle={{backgroundColor: FactionColorOf(character.faction)}}
+              bottomDivider
               key={character.name}
               leftIcon={
                 <Image source={ClassImages[character.iconName]} style={styles.classIcon} />

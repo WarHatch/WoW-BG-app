@@ -5,7 +5,7 @@ import {
   Alert,
 } from "react-native";
 import { Button } from "react-native-elements";
-import { Ionicons } from "@expo/vector-icons";
+
 import Colors from "../constants/Colors";
 
 interface IProps {
@@ -15,31 +15,31 @@ interface IProps {
 
 const onReset = (resetFunc: () => void) => {
   Alert.alert(
-    'Reset your level to 1?',
+    "Reset your level to 1?",
     undefined,
     [
       {
-        text: 'Cancel',
-        style: 'cancel',
+        text: "Cancel",
+        style: "cancel",
       },
-      {text: 'Yes', onPress: resetFunc},
+      {text: "Yes", onPress: resetFunc},
     ],
   );
-}
+};
 
-const onLevelUp = (levelUpFunc: () => void) => {
-  Alert.alert(
-    'Level up?',
-    'Leveling up will fully restore your health and energy',
-    [
-      {
-        text: 'Cancel',
-        style: 'cancel',
-      },
-      {text: 'Yes', onPress: levelUpFunc},
-    ],
-  );
-}
+// const onLevelUp = (levelUpFunc: () => void) => {
+//   Alert.alert(
+//     "Level up?",
+//     "Leveling up will fully restore your health and energy",
+//     [
+//       {
+//         text: "Cancel",
+//         style: "cancel",
+//       },
+//       {text: "Yes", onPress: levelUpFunc},
+//     ],
+//   );
+// };
 
 export default (props: IProps) => {
   const { resetLevelFunc, levelUpFunc } = props;
@@ -54,7 +54,7 @@ export default (props: IProps) => {
         containerStyle={styles.resetButtonContainerStyle}
       />
       <Button
-        onPress={() => onLevelUp(levelUpFunc)}
+        onLongPress={levelUpFunc}
         title={button2Title}
         containerStyle={styles.levelUpButtonContainerStyle}
       />
@@ -76,6 +76,6 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   levelUpButtonContainerStyle: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });

@@ -34,12 +34,10 @@ export default class CounterBox extends React.Component <IProps, {}> {
 
     return (
       <View style={styles.container}>
-        <View style={styles.warningTextContainer}>
-          <Text style={valueCap && value > valueCap ? null : styles.warningTextHidden}>
-            <Ionicons name="md-warning" />
-            {title}
-          </Text>
-        </View>
+        <Text style={valueCap && value > valueCap ? null : styles.warningTextHidden}>
+          <Ionicons name="md-warning" />
+          {title}
+        </Text>
         <TouchableOpacity onPress={increaseFunc} style={styles.button}>
           <Ionicons name="ios-arrow-up" size={64} />
         </TouchableOpacity>
@@ -68,11 +66,9 @@ const styles = StyleSheet.create({
     width: 50,
   },
   valueText: {
-    fontSize: 48,
-  },
-  warningTextContainer: {
+    fontSize: 46,
   },
   warningTextHidden: {
-    color: Colors.backgroundColor,
+    opacity: 0,
   },
 });

@@ -49,7 +49,7 @@ export default (props: IProps) => {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   counterSection: {
