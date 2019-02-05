@@ -5,23 +5,21 @@ import {
   Image,
   View,
 } from "react-native";
-import { ListItem } from 'react-native-elements'
+import { ListItem } from "react-native-elements";
 
 import Colors from "../constants/Colors";
 import ClassImages from "../assets/images/Classes/index";
-
-import { ICharacter } from "../constants/Classes/IClasses";
 
 interface IProps {
   imageName: string;
   characterName: string;
   level: number;
   characters: ICharacter[];
-  // onChangeCharacter: ()
+  changeCharacterFunc: (characterName: string) => void;
 }
 
 interface IState {
-  characterMenuVisible: boolean,
+  characterMenuVisible: boolean;
 }
 
 export default class CounterBox extends React.Component<IProps, IState> {
@@ -29,17 +27,23 @@ export default class CounterBox extends React.Component<IProps, IState> {
     super(props);
     this.state = {
       characterMenuVisible: false,
-    }
+    };
   }
 
-  toggleChracterList = () => {
+  public toggleChracterList = () => {
     this.setState((oldState) => ({
-      characterMenuVisible: !oldState.characterMenuVisible
-    }))
+      characterMenuVisible: !oldState.characterMenuVisible,
+    }));
   }
 
   public render() {
-    const { imageName, characterName, level, characters } = this.props;
+    const {
+      imageName,
+      characterName,
+      level,
+      characters,
+      changeCharacterFunc,
+    } = this.props;
     const { characterMenuVisible } = this.state;
     const levelText = "lvl";
 
@@ -47,7 +51,7 @@ export default class CounterBox extends React.Component<IProps, IState> {
       <View>
         {/* Chosen item */}
         <ListItem
-          containerStyle={styles.container}
+          containerStyle={styles.selectedCharacter}
           leftIcon={<Image source={ClassImages[imageName]} style={styles.classIcon} />}
           title={<Text style={styles.characterName}>{characterName}</Text>}
           rightTitle={
@@ -66,6 +70,10 @@ export default class CounterBox extends React.Component<IProps, IState> {
               key={character.name}
               leftIcon={<Image source={ClassImages[character.iconName]} style={styles.classIcon} />}
               title={<Text style={styles.characterName}>{character.name}</Text>}
+              onPress={() => {
+                this.toggleChracterList();
+                changeCharacterFunc(character.name);
+              }}
             />
           )) : null
         }
@@ -75,11 +83,13 @@ export default class CounterBox extends React.Component<IProps, IState> {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  selectedCharacter: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "teal"
+    backgroundColor: "teal",
+    borderBottomWidth: 2,
+    borderColor: Colors.borderColor,
   },
   characterName: {
     fontSize: 20,

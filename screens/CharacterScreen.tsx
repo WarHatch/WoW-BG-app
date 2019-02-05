@@ -26,8 +26,12 @@ export default class CharacterScreen extends React.Component<{}, IState> {
     header: null,
   };
 
+  public fullCharacterList: ICharacter[];
+
   constructor(props: {}) {
     super(props);
+
+    this.fullCharacterList = CharacterClasses.Alliance.concat(CharacterClasses.Horde);
     const defaultSelectedCharacter = CharacterClasses.Alliance[0];
 
     this.state = {
@@ -49,18 +53,19 @@ export default class CharacterScreen extends React.Component<{}, IState> {
 
     const currentLevelCap = levelCaps[characterLevel - 1]; // health and energy caps
 
-    const pickableCharacters = CharacterClasses.Alliance.concat(CharacterClasses.Horde)
-      .filter((character) => character.name != selectedCharacter.name);
-    
+    const pickableCharacters = this.fullCharacterList
+      .filter((character) => character.name !== selectedCharacter.name);
+
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.headerSection}>
             <CharacterSelect
-              imageName={ iconName }
+              imageName={iconName}
               characterName={name}
               level={characterLevel}
               characters={pickableCharacters}
+              changeCharacterFunc={(characterName) => this.changeSelectedCharacter(characterName)}
             />
           </View>
 
@@ -75,41 +80,58 @@ export default class CharacterScreen extends React.Component<{}, IState> {
             energy={energy}
             energyCap={currentLevelCap.energy}
             gold={gold}
-            increaseResource={(resourceName: "health"|"gold"|"energy") => this.increaseResource(resourceName)}
-            decreaseResource={(resourceName: "health"|"gold"|"energy") => this.decreaseResource(resourceName)}
+            increaseResource={(resourceName: "health" | "gold" | "energy") => this.increaseResource(resourceName)}
+            decreaseResource={(resourceName: "health" | "gold" | "energy") => this.decreaseResource(resourceName)}
           />
         </ScrollView>
       </View>
     );
   }
 
-  private increaseResource = (resourceName: "health"|"gold"|"energy") => {
+  public changeSelectedCharacter = (newSelectedName: string) => {
+    const newCharacter = this.fullCharacterList
+      .find((character) => character.name === newSelectedName);
+    if (newCharacter) {
+      this.setState({
+        selectedCharacter: newCharacter,
+        // and reset stats
+        characterLevel: 1,
+        health: newCharacter.levelCaps[0].health,
+        energy: newCharacter.levelCaps[0].energy,
+        gold: 5,
+      });
+    } else {
+      throw new Error("Unable to find character by passed `newSelectedName` when trying to change character");
+    }
+  }
+
+  public increaseResource = (resourceName: "health" | "gold" | "energy") => {
     // @ts-ignore
-    this.setState(previousState => {
+    this.setState((previousState) => {
       return ({
-        [resourceName]: previousState[resourceName] + 1
+        [resourceName]: previousState[resourceName] + 1,
       });
     });
   }
 
-  private decreaseResource = (resourceName: "health"|"gold"|"energy") => {
+  public decreaseResource = (resourceName: "health" | "gold" | "energy") => {
     // @ts-ignore
-    this.setState(previousState => {
+    this.setState((previousState) => {
       if (previousState[resourceName] > 0) {
-        return {[resourceName]: previousState[resourceName] - 1}
+        return { [resourceName]: previousState[resourceName] - 1 };
       }
       return previousState;
     });
   }
 
-  private resetLevel() {
+  public resetLevel() {
     this.setState({
       characterLevel: 1,
     });
   }
 
-  private levelUp() {
-    const {characterLevel, selectedCharacter} = this.state;
+  public levelUp() {
+    const { characterLevel, selectedCharacter } = this.state;
     const newLevel = characterLevel + 1;
 
     if (characterLevel < selectedCharacter.levelCaps.length) {
@@ -136,7 +158,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerSection: {
-    borderBottomWidth: 2,
-    borderColor: Colors.borderColor,
   },
 });
