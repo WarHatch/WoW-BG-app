@@ -15,14 +15,15 @@ interface IProps {
 
 export default (props: IProps) => {
   const { levelUpFunc, factionStyle } = props;
-  const button2Title = "Level up!";
+  const levelUpButtonTitle = "Level up!";
 
   return (
     <View style={styles.container}>
       <Button
         onLongPress={levelUpFunc}
-        title={button2Title}
-        containerStyle={ styles.levelUpButtonContainerStyle}
+        title={levelUpButtonTitle}
+        titleStyle={styles.title}
+        containerStyle={styles.levelUpButtonContainerStyle}
         buttonStyle={factionStyle === "Horde" && styles.levelUpButtonHorde}
       />
     </View>
@@ -31,6 +32,7 @@ export default (props: IProps) => {
 
 const styles = StyleSheet.create({
   title: {
+    fontFamily: "lifecraft",
     fontSize: 20,
   },
   container: {
@@ -39,9 +41,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  resetButtonContainerStyle: {
-    marginRight: 15,
-  },
+  // resetButtonContainerStyle: {
+  //   marginRight: 15,
+  // },
   levelUpButtonContainerStyle: {
     flex: 1,
   },
