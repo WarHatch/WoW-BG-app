@@ -9,14 +9,14 @@ import {
 } from "react-native";
 import RNShake from "react-native-shake";
 
+import CharactersHandler from "../handlers/CharactersHandler";
+
 import Colors, {FactionColorOf} from "../constants/Colors";
 
 import StatusBarBackground from "../components/Android/StatusBarBackground";
 import CharacterSelect from "../components/CharacterSelect";
 import LevelButtonsSection from "../sections/LevelButtonsSection";
 import CountersSection from "../sections/CountersSection";
-
-import CharacterClasses from "../constants/Classes";
 
 interface IState {
   selectedCharacter: ICharacter;
@@ -32,13 +32,10 @@ export default class CharacterScreen extends React.Component<{}, IState> {
     header: null,
   };
 
-  public fullCharacterList: ICharacter[];
-
   constructor(props: {}) {
     super(props);
 
-    this.fullCharacterList = CharacterClasses.Alliance.concat(CharacterClasses.Horde);
-    const defaultSelectedCharacter = CharacterClasses.Alliance[0];
+    const defaultSelectedCharacter = CharactersHandler.fullCharacterList[0];
 
     this.state = {
       selectedCharacter: defaultSelectedCharacter,
@@ -77,7 +74,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
 
     const currentLevelCap = levelCaps[characterLevel - 1]; // health and energy caps
 
-    const pickableCharacters = this.fullCharacterList
+    const pickableCharacters = CharactersHandler.fullCharacterList
       .filter((character) => character.name !== selectedCharacter.name);
 
     return (
@@ -123,16 +120,8 @@ export default class CharacterScreen extends React.Component<{}, IState> {
     }));
   }
 
-  public findCharacter(name: string) {
-    const result = this.fullCharacterList.find((character) => character.name === name);
-    if (!result) {
-      throw new Error(`Was unable to find character ${name}`);
-    }
-    return result;
-  }
-
   public changeSelectedCharacter = (newSelectedName: string) => {
-    const newCharacter = this.findCharacter(newSelectedName);
+    const newCharacter = CharactersHandler.FindCharacter(newSelectedName);
     if (newCharacter) {
       this.setState({
         selectedCharacter: newCharacter,
@@ -205,6 +194,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
       gold,
     } = this.state;
     try {
+      // TODO: single set a JSON data
       await AsyncStorage.multiSet([
         ["selectedCharacterName", selectedCharacter.name],
         ["characterLevel", characterLevel.toString()],
@@ -227,7 +217,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
         "gold",
       ], (errors, stores) => {
         if (stores) {
-          const selectedCharacter = this.findCharacter(stores[0][1]);
+          const selectedCharacter = CharactersHandler.FindCharacter(stores[0][1]);
           const characterLevel = parseInt(stores[1][1], 10);
           const health = parseInt(stores[2][1], 10);
           const energy = parseInt(stores[3][1], 10);
