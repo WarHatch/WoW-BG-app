@@ -23,13 +23,13 @@ export default class App extends React.Component {
     //   require("./assets/images/robot-dev.png"),
     //   require("./assets/images/robot-prod.png"),
     // ]),
-    Font.loadAsync({
+    await Font.loadAsync({
       // This is the font that we are using for our tab bar
-      ...Icon.Ionicons.font,
+      lifecraft: require("./assets/fonts/LifeCraft_Font.ttf"),
     }),
   ])
 
-  public handleLoadingError = (error) => {
+  public handleLoadingError = (error: Error) => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
     console.warn(error);

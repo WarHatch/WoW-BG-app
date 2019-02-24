@@ -96,7 +96,6 @@ export default class CharacterScreen extends React.Component<{}, IState> {
           { !characterInfoHidden && (
             <View style={styles.characterInfo}>
               <LevelButtonsSection
-                // resetCharacterFunc={() => this.resetCharacter()}
                 levelUpFunc={() => this.levelUp()}
                 factionStyle={faction}
               />

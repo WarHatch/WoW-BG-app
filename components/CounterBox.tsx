@@ -37,7 +37,8 @@ export default class CounterBox extends React.Component <IProps, {}> {
 
     return (
       <View style={styles.container}>
-        <Text style={valueCap && value > valueCap ? null : styles.warningTextHidden}>
+        {/* Shows/Hides 'overcapped' text */}
+        <Text style={valueCap && value > valueCap ? styles.warningTextVisible : styles.warningTextHidden}>
           <Ionicons name="md-warning" />
           {title}
         </Text>
@@ -81,9 +82,14 @@ const styles = StyleSheet.create({
     width: 50,
   },
   valueText: {
+    // fontFamily: "lifecraft",
     fontSize: 46,
   },
+  warningTextVisible: {
+    fontFamily: "lifecraft",
+  },
   warningTextHidden: {
+    fontFamily: "lifecraft",
     opacity: 0,
   },
 });

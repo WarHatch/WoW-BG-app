@@ -19,6 +19,15 @@ CharacterStack.navigationOptions = {
   ),
 };
 
-export default createBottomTabNavigator({
+const MainTabNavigator = createBottomTabNavigator({
   CharacterStack,
+},
+{
+  tabBarOptions: {
+    labelStyle: {
+      fontFamily: 'lifecraft',
+    }
+  }
 });
+
+export default MainTabNavigator;

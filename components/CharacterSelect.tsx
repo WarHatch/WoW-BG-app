@@ -91,7 +91,8 @@ export default class CounterBox extends React.Component<IProps, IState> {
 
 const styles = StyleSheet.create({
   characterName: {
-    fontSize: 20,
+    fontFamily: "lifecraft",
+    fontSize: 24,
   },
   classIcon: {
     height: 50,

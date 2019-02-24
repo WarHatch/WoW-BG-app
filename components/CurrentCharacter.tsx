@@ -38,7 +38,7 @@ export default (props: IProps) => {
       title={<Text style={styles.characterName}>{characterName}</Text>}
       rightTitle={
         <View style={styles.levelContainer}>
-          <Text>{levelText}</Text>
+          <Text style={styles.levelTitle}>{levelText}</Text>
           <Text style={styles.levelCountText}>{level}</Text>
         </View>
       }
@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
     borderColor: "#fff",
   },
   characterName: {
-    fontSize: 20,
+    fontFamily: "lifecraft",
+    fontSize: 24,
   },
   classIcon: {
     height: 50,
@@ -68,7 +69,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "flex-end",
   },
+  levelTitle: {
+    fontFamily: "lifecraft",
+  },
   levelCountText: {
+    fontFamily: "lifecraft",
     fontSize: 40,
     paddingLeft: 3,
   },
