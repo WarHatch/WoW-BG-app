@@ -4,6 +4,8 @@ import {
   StyleSheet,
   View,
   Alert,
+  AsyncStorage,
+  AppState,
 } from "react-native";
 import RNShake from "react-native-shake";
 
@@ -48,17 +50,20 @@ export default class CharacterScreen extends React.Component<{}, IState> {
     };
   }
 
-  // TODO: test shake event firing
-  // tslint:disable-next-line:member-access
-  componentWillMount() {
+  public componentDidMount() {
+    // FIXME: shake event not firing
     RNShake.addEventListener("ShakeEvent", () => {
       this.resetCharacter();
     });
+
+    this.loadStateFromStorage();
+    AppState.addEventListener("change", () => this.saveStateInStorage());
   }
 
-  // tslint:disable-next-line:member-access
-  componentWillUnmount() {
+  public componentWillUnmount() {
     RNShake.removeEventListener("ShakeEvent");
+
+    AppState.removeEventListener("change", () => this.saveStateInStorage());
   }
 
   public render() {
@@ -118,9 +123,16 @@ export default class CharacterScreen extends React.Component<{}, IState> {
     }));
   }
 
+  public findCharacter(name: string) {
+    const result = this.fullCharacterList.find((character) => character.name === name);
+    if (!result) {
+      throw new Error(`Was unable to find character ${name}`);
+    }
+    return result;
+  }
+
   public changeSelectedCharacter = (newSelectedName: string) => {
-    const newCharacter = this.fullCharacterList
-      .find((character) => character.name === newSelectedName);
+    const newCharacter = this.findCharacter(newSelectedName);
     if (newCharacter) {
       this.setState({
         selectedCharacter: newCharacter,
@@ -182,6 +194,56 @@ export default class CharacterScreen extends React.Component<{}, IState> {
         },
       ],
     );
+  }
+
+  private async saveStateInStorage() {
+    const {
+      selectedCharacter,
+      characterLevel,
+      health,
+      energy,
+      gold,
+    } = this.state;
+    try {
+      await AsyncStorage.multiSet([
+        ["selectedCharacterName", selectedCharacter.name],
+        ["characterLevel", characterLevel.toString()],
+        ["health", health.toString()],
+        ["energy", energy.toString()],
+        ["gold", gold.toString()],
+      ]);
+    } catch (error) {
+      throw new Error("An error occured while trying to save your character data");
+    }
+  }
+
+  private async loadStateFromStorage() {
+    try {
+      await AsyncStorage.multiGet([
+        "selectedCharacterName",
+        "characterLevel",
+        "health",
+        "energy",
+        "gold",
+      ], (errors, stores) => {
+        if (stores) {
+          const selectedCharacter = this.findCharacter(stores[0][1]);
+          const characterLevel = parseInt(stores[1][1], 10);
+          const health = parseInt(stores[2][1], 10);
+          const energy = parseInt(stores[3][1], 10);
+          const gold = parseInt(stores[4][1], 10);
+          this.setState({
+            selectedCharacter,
+            characterLevel,
+            health,
+            energy,
+            gold,
+          });
+        }
+      });
+    } catch {
+      throw new Error("An error occured while trying to load your character data");
+    }
   }
 }
 
