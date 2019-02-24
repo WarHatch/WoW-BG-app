@@ -32,6 +32,8 @@ export default class CharacterScreen extends React.Component<{}, IState> {
     header: null,
   };
 
+  private readonly asyncStorageCharacterStateKey = "CHARACTERSTATE";
+
   constructor(props: {}) {
     super(props);
 
@@ -60,6 +62,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
   public componentWillUnmount() {
     RNShake.removeEventListener("ShakeEvent");
 
+    this.saveStateInStorage();
     AppState.removeEventListener("change", () => this.saveStateInStorage());
   }
 
@@ -193,15 +196,15 @@ export default class CharacterScreen extends React.Component<{}, IState> {
       energy,
       gold,
     } = this.state;
+    const dataToSave = JSON.stringify({
+      selectedCharacter,
+      characterLevel,
+      health,
+      energy,
+      gold,
+    });
     try {
-      // TODO: single set a JSON data
-      await AsyncStorage.multiSet([
-        ["selectedCharacterName", selectedCharacter.name],
-        ["characterLevel", characterLevel.toString()],
-        ["health", health.toString()],
-        ["energy", energy.toString()],
-        ["gold", gold.toString()],
-      ]);
+      await AsyncStorage.setItem(this.asyncStorageCharacterStateKey, dataToSave);
     } catch (error) {
       throw new Error("An error occured while trying to save your character data");
     }
@@ -209,19 +212,16 @@ export default class CharacterScreen extends React.Component<{}, IState> {
 
   private async loadStateFromStorage() {
     try {
-      await AsyncStorage.multiGet([
-        "selectedCharacterName",
-        "characterLevel",
-        "health",
-        "energy",
-        "gold",
-      ], (errors, stores) => {
-        if (stores) {
-          const selectedCharacter = CharactersHandler.FindCharacter(stores[0][1]);
-          const characterLevel = parseInt(stores[1][1], 10);
-          const health = parseInt(stores[2][1], 10);
-          const energy = parseInt(stores[3][1], 10);
-          const gold = parseInt(stores[4][1], 10);
+      await AsyncStorage.getItem(this.asyncStorageCharacterStateKey, (errors, result) => {
+        if (result) {
+          const loadedCharacterState = JSON.parse(result);
+          const {
+            selectedCharacter,
+            characterLevel,
+            health,
+            energy,
+            gold,
+          } = loadedCharacterState;
           this.setState({
             selectedCharacter,
             characterLevel,
