@@ -2,10 +2,13 @@ import React from "react";
 import {
   StyleSheet,
   View,
-  Animated,
+  Vibration,
 } from "react-native";
-import ProgressBar from "react-native-progress/Bar";
 import { Button } from "react-native-elements";
+
+import LevelUpIndicator from "../components/LevelUpIndicator";
+
+import { FactionColorOf } from "../constants/Colors";
 
 interface IProps {
   levelUpFunc: () => void;
@@ -14,30 +17,29 @@ interface IProps {
 
 interface IState {
   heldDownTime: number;
-  heldDown: boolean;
 }
 
-export default class LevelUpIndicator extends React.Component <IProps, IState> {
+export default class LevelButtonsSection extends React.Component <IProps, IState> {
   private readonly levelUpButtonTitle = "Level up!";
-  // Duration for react-native-elements Button longPress is 200
-  private readonly animationDuration = 200;
+  // eye mesured duration for react-native-elements Button longPress is 100
+  private readonly animationLength = 100;
   private animationIntervalId?: number;
+
+  private readonly vibrationLength = 120;
 
   constructor(props: IProps) {
     super(props);
     this.animationIntervalId = undefined;
     this.state = {
       heldDownTime: 0,
-      heldDown: false,
     };
   }
 
   public onPressIn() {
-    this.setState({
-      heldDown: true,
-    });
-
     const increaseValue = 20;
+    this.setState({
+      heldDownTime: increaseValue,
+    }),
     this.animationIntervalId = setInterval(
       () => this.setState((prevState) => ({
         heldDownTime: prevState.heldDownTime + increaseValue,
@@ -45,15 +47,12 @@ export default class LevelUpIndicator extends React.Component <IProps, IState> {
       increaseValue,
     );
 
-    if (this.state.heldDownTime > this.animationDuration) {
+    if (this.state.heldDownTime > this.animationLength) {
       clearInterval(this.animationIntervalId);
     }
   }
 
   public onPressOut() {
-    this.setState({
-      heldDown: false,
-    });
     clearInterval(this.animationIntervalId);
     this.setState({
       heldDownTime: 0,
@@ -62,35 +61,31 @@ export default class LevelUpIndicator extends React.Component <IProps, IState> {
 
   public render() {
     const { levelUpFunc, factionStyle } = this.props;
-    const { heldDown } = this.state;
 
     return (
       <View style={styles.container}>
-        {/* set width to null to use automatic flexbox sizing */}
         <View style={styles.levelUpIndicatorContainerStyle}>
-          <ProgressBar
-            width={null}
-            style={heldDown ? styles.levelUpIndicatorVisible : styles.levelUpIndicatorHidden}
-            progress={this.heldDownProgress()}
-          />
+          <LevelUpIndicator factionStyle={factionStyle} progress={this.heldDownProgress()}/>
         </View>
-
         <Button
           onPress={() => null}
-          onLongPress={levelUpFunc}
+          onLongPress={() => {
+            levelUpFunc();
+            Vibration.vibrate(this.vibrationLength, false);
+          }}
           onPressIn={() => this.onPressIn()}
           onPressOut={() => this.onPressOut()}
           title={this.levelUpButtonTitle}
           titleStyle={styles.title}
           containerStyle={styles.levelUpButtonContainerStyle}
-          buttonStyle={factionStyle === "Horde" && styles.levelUpButtonHorde}
+          buttonStyle={factionStyle === "Horde" ? styles.levelUpButtonHorde : styles.levelUpButtonAlliance}
         />
       </View>
     );
   }
 
   private heldDownProgress() {
-    return this.state.heldDownTime / this.animationDuration;
+    return this.state.heldDownTime / this.animationLength;
   }
 }
 
@@ -109,16 +104,13 @@ const styles = StyleSheet.create({
   {
     paddingBottom: 10,
   },
-  levelUpIndicatorVisible: {
-
-  },
-  levelUpIndicatorHidden: {
-    opacity: 0,
-  },
   levelUpButtonContainerStyle: {
     flex: 1,
   },
   levelUpButtonHorde: {
-    backgroundColor: "#d64343",
+    backgroundColor: FactionColorOf("Horde"),
+  },
+  levelUpButtonAlliance: {
+    backgroundColor: FactionColorOf("Alliance"),
   },
 });

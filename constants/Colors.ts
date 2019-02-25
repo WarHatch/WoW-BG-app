@@ -1,17 +1,17 @@
 const tintColor = "#2f95dc";
 const backgroundColor = "#fff";
 
-const allianceBackgroud = "#2162ef";
+const allianceBackground = "#2162ef";
 const hordeBackground = "#d53131";
 
-const FactionColorOf = (faction: string) => {
+const FactionColorOf = (faction: "Horde"|"Alliance") => {
   const hordeName = "Horde";
   const allianceName = "Alliance";
 
   if (faction === hordeName) {
     return hordeBackground;
   } else if (faction === allianceName) {
-    return allianceBackgroud;
+    return allianceBackground;
   } else {
     throw new Error(
       `Incorrect faction name passed. Expecting "${hordeName}"|"${allianceName}". Received: ${faction}`,
@@ -24,7 +24,7 @@ export {FactionColorOf};
 export default {
   tintColor,
   backgroundColor,
-  allianceBackgroud,
+  allianceBackground,
   hordeBackground,
   borderColor: "#000000",
   tabIconDefault: "#ccc",
