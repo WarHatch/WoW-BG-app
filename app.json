@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "World of Warcraft: The Boardgame manager",
+    "name": "WoW: Boardgame manager",
     "slug": "WoWBG-app",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.1",
+    "version": "1.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "primaryColor": "#2f212f",
@@ -18,7 +18,7 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 5000
     },
     "assetBundlePatterns": [
       "**/*"
@@ -30,6 +30,6 @@
     "android": {
       "package": "com.warhatch.WoWBGmanager"
     },
-    "description": ""
+    "description": "A react-native app for World of Warcraft: the Board Game character management"
   }
 }
