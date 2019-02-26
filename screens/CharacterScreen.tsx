@@ -14,7 +14,7 @@ import CharactersHandler from "../handlers/CharactersHandler";
 import Colors, {FactionColorOf} from "../constants/Colors";
 
 import StatusBarBackground from "../components/Android/StatusBarBackground";
-import CharacterSelect from "../components/CharacterSelect";
+import CharacterSelectSection from "../sections/CharacterSelectSection";
 import LevelButtonsSection from "../sections/LevelButtonsSection";
 import CountersSection from "../sections/CountersSection";
 
@@ -84,7 +84,7 @@ export default class CharacterScreen extends React.Component<{}, IState> {
       <View style={styles.container}>
         <ScrollView>
           <StatusBarBackground backgroundColor={FactionColorOf(selectedCharacter.faction)} />
-          <CharacterSelect
+          <CharacterSelectSection
             imageName={iconName}
             characterName={name}
             level={characterLevel}

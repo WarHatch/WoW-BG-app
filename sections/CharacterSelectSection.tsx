@@ -1,16 +1,11 @@
 import React from "react";
 import {
   StyleSheet,
-  Text,
-  Image,
   View,
 } from "react-native";
-import { ListItem } from "react-native-elements";
 
-import CurrentCharacter from "./CurrentCharacter";
-
-import {FactionColorOf} from "../constants/Colors";
-import ClassImages from "../assets/images/Classes/index";
+import CurrentCharacter from "../components/CurrentCharacter";
+import CharacterMenu from "../components/CharacterMenu";
 
 interface IProps {
   imageName: string;
@@ -63,39 +58,17 @@ export default class CounterBox extends React.Component<IProps, IState> {
         />
         {
           /* OnPress list */
-          characterMenuVisible ?
-          characters.map((character) => (
-            <ListItem
-              containerStyle={{backgroundColor: FactionColorOf(character.faction)}}
-              bottomDivider
-              key={character.name}
-              leftIcon={
-                <Image source={ClassImages[character.iconName]} style={styles.classIcon} />
-              }
-              title={
-                <Text style={styles.characterName}>
-                  {character.name}
-                </Text>
-              }
-              onPress={() => {
-                this.toggleChracterList();
-                changeCharacterFunc(character.name);
-              }}
-            />
-          )) : null
+          characterMenuVisible &&
+          <CharacterMenu
+            characters={characters}
+            onCharacterPress={(charName: string) => {
+              this.toggleChracterList();
+              changeCharacterFunc(charName);
+            }}
+            onHardwareBackPress={() => this.toggleChracterList()}
+          />
         }
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  characterName: {
-    fontFamily: "lifecraft",
-    fontSize: 24,
-  },
-  classIcon: {
-    height: 50,
-    width: 50,
-  },
-});
